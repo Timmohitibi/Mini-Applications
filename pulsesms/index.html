@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PulseSMS - Smart Bulk Messaging</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📱 PulseSMS</h1>
+            <p>Professional bulk SMS & scheduling platform</p>
+        </header>
+
+        <nav class="tab-nav">
+            <button class="tab-btn active" data-tab="compose">Compose</button>
+            <button class="tab-btn" data-tab="templates">Templates</button>
+            <button class="tab-btn" data-tab="contacts">Contacts</button>
+            <button class="tab-btn" data-tab="history">History</button>
+            <button class="tab-btn" data-tab="analytics">Analytics</button>
+        </nav>
+
+        <!-- Compose Tab -->
+        <div id="compose" class="tab-content active">
+            <div class="compose-section">
+                <div class="message-form">
+                    <h2>Send SMS Campaign</h2>
+                    <form id="smsForm">
+                        <div class="form-group">
+                            <label>Recipients</label>
+                            <div class="recipient-options">
+                                <label><input type="radio" name="recipientType" value="manual" checked> Manual Entry</label>
+                                <label><input type="radio" name="recipientType" value="group"> Contact Group</label>
+                            </div>
+                            <textarea id="recipients" placeholder="Enter phone numbers (one per line)&#10;+1234567890&#10;+0987654321" rows="4"></textarea>
+                            <select id="contactGroup" style="display:none;">
+                                <option value="">Select Contact Group</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Message Template</label>
+                            <select id="templateSelect">
+                                <option value="">Select Template (Optional)</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Message Content</label>
+                            <textarea id="messageContent" placeholder="Type your message here..." rows="5" maxlength="160"></textarea>
+                            <div class="char-count">
+                                <span id="charCount">0</span>/160 characters
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Scheduling</label>
+                            <div class="schedule-options">
+                                <label><input type="radio" name="scheduleType" value="now" checked> Send Now</label>
+                                <label><input type="radio" name="scheduleType" value="later"> Schedule Later</label>
+                            </div>
+                            <div id="scheduleInputs" style="display:none;">
+                                <input type="datetime-local" id="scheduleTime">
+                            </div>
+                        </div>
+
+                        <button type="submit" class="send-btn">Send SMS Campaign</button>
+                    </form>
+                </div>
+
+                <div class="preview-section">
+                    <h3>Message Preview</h3>
+                    <div class="phone-preview">
+                        <div class="phone-screen">
+                            <div class="message-bubble">
+                                <div id="previewContent">Your message will appear here...</div>
+                                <div class="message-time">Now</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="campaign-stats">
+                        <div class="stat">
+                            <span class="label">Recipients:</span>
+                            <span id="recipientCount">0</span>
+                        </div>
+                        <div class="stat">
+                            <span class="label">Estimated Cost:</span>
+                            <span id="estimatedCost">$0.00</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Templates Tab -->
+        <div id="templates" class="tab-content">
+            <div class="templates-section">
+                <div class="section-header">
+                    <h2>Message Templates</h2>
+                    <button id="addTemplateBtn" class="add-btn">+ Add Template</button>
+                </div>
+                <div id="templatesList" class="templates-grid"></div>
+            </div>
+        </div>
+
+        <!-- Contacts Tab -->
+        <div id="contacts" class="tab-content">
+            <div class="contacts-section">
+                <div class="section-header">
+                    <h2>Contact Management</h2>
+                    <button id="addContactBtn" class="add-btn">+ Add Contact</button>
+                </div>
+                <div id="contactsList" class="contacts-list"></div>
+            </div>
+        </div>
+
+        <!-- History Tab -->
+        <div id="history" class="tab-content">
+            <div class="history-section">
+                <h2>Campaign History</h2>
+                <div class="filters">
+                    <select id="statusFilter">
+                        <option value="">All Status</option>
+                        <option value="sent">Sent</option>
+                        <option value="scheduled">Scheduled</option>
+                        <option value="failed">Failed</option>
+                    </select>
+                    <input type="date" id="dateFilter">
+                </div>
+                <div id="campaignHistory" class="history-list"></div>
+            </div>
+        </div>
+
+        <!-- Analytics Tab -->
+        <div id="analytics" class="tab-content">
+            <div class="analytics-section">
+                <h2>Campaign Analytics</h2>
+                <div class="analytics-grid">
+                    <div class="metric-card">
+                        <h3>Total Sent</h3>
+                        <div class="metric-value" id="totalSent">0</div>
+                    </div>
+                    <div class="metric-card">
+                        <h3>Success Rate</h3>
+                        <div class="metric-value" id="successRate">0%</div>
+                    </div>
+                    <div class="metric-card">
+                        <h3>Total Cost</h3>
+                        <div class="metric-value" id="totalCost">$0.00</div>
+                    </div>
+                    <div class="metric-card">
+                        <h3>This Month</h3>
+                        <div class="metric-value" id="monthlyCount">0</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modals -->
+    <div id="templateModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3>Add Message Template</h3>
+            <form id="templateForm">
+                <input type="text" id="templateName" placeholder="Template Name" required>
+                <textarea id="templateContent" placeholder="Template Content" rows="4" required></textarea>
+                <button type="submit">Save Template</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="contactModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3>Add Contact</h3>
+            <form id="contactForm">
+                <input type="text" id="contactName" placeholder="Contact Name" required>
+                <input type="tel" id="contactPhone" placeholder="Phone Number" required>
+                <input type="text" id="contactGroup" placeholder="Group (Optional)">
+                <button type="submit">Save Contact</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

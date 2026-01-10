@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>USSDire - USSD Service Simulator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📱 USSDire</h1>
+            <p>USSD Service Menu Simulator</p>
+        </header>
+
+        <div class="main-content">
+            <!-- Phone Simulator -->
+            <div class="phone-simulator">
+                <div class="phone-frame">
+                    <div class="phone-screen">
+                        <div class="status-bar">
+                            <span class="carrier">Telecom</span>
+                            <span class="time" id="currentTime">12:34</span>
+                            <span class="battery">🔋 85%</span>
+                        </div>
+                        
+                        <div class="ussd-content">
+                            <div class="ussd-header">
+                                <h3>USSD Service</h3>
+                                <div class="session-info">
+                                    Session: <span id="sessionId">*123#</span>
+                                </div>
+                            </div>
+                            
+                            <div class="ussd-display" id="ussdDisplay">
+                                <div class="welcome-message">
+                                    Welcome to USSDire Services
+                                    
+                                    1. Account Balance
+                                    2. Mobile Money
+                                    3. Airtime & Data
+                                    4. Bill Payments
+                                    5. Customer Service
+                                    0. Exit
+                                    
+                                    Enter your choice:
+                                </div>
+                            </div>
+                            
+                            <div class="ussd-input">
+                                <input type="text" id="ussdInput" placeholder="Enter option..." maxlength="20" autofocus>
+                                <div class="input-buttons">
+                                    <button id="sendBtn">Send</button>
+                                    <button id="cancelBtn">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Phone Keypad -->
+                    <div class="phone-keypad">
+                        <div class="keypad-row">
+                            <button class="key" data-key="1">1</button>
+                            <button class="key" data-key="2">2<span>ABC</span></button>
+                            <button class="key" data-key="3">3<span>DEF</span></button>
+                        </div>
+                        <div class="keypad-row">
+                            <button class="key" data-key="4">4<span>GHI</span></button>
+                            <button class="key" data-key="5">5<span>JKL</span></button>
+                            <button class="key" data-key="6">6<span>MNO</span></button>
+                        </div>
+                        <div class="keypad-row">
+                            <button class="key" data-key="7">7<span>PQRS</span></button>
+                            <button class="key" data-key="8">8<span>TUV</span></button>
+                            <button class="key" data-key="9">9<span>WXYZ</span></button>
+                        </div>
+                        <div class="keypad-row">
+                            <button class="key" data-key="*">*</button>
+                            <button class="key" data-key="0">0<span>+</span></button>
+                            <button class="key" data-key="#">#</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Admin Panel -->
+            <div class="admin-panel">
+                <div class="panel-header">
+                    <h2>Service Configuration</h2>
+                    <div class="panel-tabs">
+                        <button class="tab-btn active" data-tab="menus">Menu Structure</button>
+                        <button class="tab-btn" data-tab="analytics">Analytics</button>
+                        <button class="tab-btn" data-tab="sessions">Sessions</button>
+                    </div>
+                </div>
+
+                <!-- Menu Structure Tab -->
+                <div id="menus" class="tab-content active">
+                    <div class="menu-builder">
+                        <h3>Current Menu Structure</h3>
+                        <div id="menuTree" class="menu-tree"></div>
+                        
+                        <div class="menu-actions">
+                            <button id="addMenuBtn" class="action-btn">+ Add Menu Item</button>
+                            <button id="resetMenuBtn" class="action-btn secondary">Reset to Default</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Analytics Tab -->
+                <div id="analytics" class="tab-content">
+                    <div class="analytics-dashboard">
+                        <h3>Usage Analytics</h3>
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <h4>Total Sessions</h4>
+                                <div class="stat-value" id="totalSessions">0</div>
+                            </div>
+                            <div class="stat-card">
+                                <h4>Completed Sessions</h4>
+                                <div class="stat-value" id="completedSessions">0</div>
+                            </div>
+                            <div class="stat-card">
+                                <h4>Most Used Service</h4>
+                                <div class="stat-value" id="popularService">-</div>
+                            </div>
+                            <div class="stat-card">
+                                <h4>Avg Session Time</h4>
+                                <div class="stat-value" id="avgSessionTime">0s</div>
+                            </div>
+                        </div>
+                        
+                        <div class="usage-chart">
+                            <h4>Service Usage Distribution</h4>
+                            <div id="usageChart" class="chart-container"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sessions Tab -->
+                <div id="sessions" class="tab-content">
+                    <div class="sessions-list">
+                        <h3>Active & Recent Sessions</h3>
+                        <div class="session-filters">
+                            <select id="sessionFilter">
+                                <option value="all">All Sessions</option>
+                                <option value="active">Active Only</option>
+                                <option value="completed">Completed</option>
+                                <option value="cancelled">Cancelled</option>
+                            </select>
+                        </div>
+                        <div id="sessionsList" class="sessions-container"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="quick-actions">
+            <button id="dialBtn" class="quick-btn">📞 Dial *123#</button>
+            <button id="balanceBtn" class="quick-btn">💰 Check Balance</button>
+            <button id="rechargeBtn" class="quick-btn">🔄 Recharge</button>
+            <button id="helpBtn" class="quick-btn">❓ Help</button>
+        </div>
+    </div>
+
+    <!-- Modal for Menu Editor -->
+    <div id="menuModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3>Add/Edit Menu Item</h3>
+            <form id="menuForm">
+                <input type="hidden" id="menuId">
+                <input type="text" id="menuTitle" placeholder="Menu Title" required>
+                <input type="text" id="menuKey" placeholder="Menu Key (1-9)" required maxlength="1">
+                <textarea id="menuContent" placeholder="Menu Content/Response" rows="4"></textarea>
+                <select id="menuType">
+                    <option value="menu">Sub Menu</option>
+                    <option value="action">Action</option>
+                    <option value="input">Input Required</option>
+                </select>
+                <input type="text" id="parentMenu" placeholder="Parent Menu ID (optional)">
+                <button type="submit">Save Menu Item</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

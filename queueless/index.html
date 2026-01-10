@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QueueLess - Smart Appointment Booking</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🏥 QueueLess</h1>
+            <p>Smart appointment booking for modern clinics</p>
+            <div class="role-toggle">
+                <button id="userMode" class="active">Patient View</button>
+                <button id="adminMode">Admin Panel</button>
+            </div>
+        </header>
+
+        <!-- Patient Booking Interface -->
+        <div id="patientView" class="view active">
+            <div class="booking-form">
+                <h2>Book Your Appointment</h2>
+                <form id="bookingForm">
+                    <input type="text" id="patientName" placeholder="Your Name" required>
+                    <input type="tel" id="patientPhone" placeholder="Phone Number" required>
+                    <select id="serviceType" required>
+                        <option value="">Select Service</option>
+                        <option value="consultation">General Consultation</option>
+                        <option value="checkup">Health Checkup</option>
+                        <option value="vaccination">Vaccination</option>
+                        <option value="dental">Dental Care</option>
+                    </select>
+                    <input type="date" id="appointmentDate" required>
+                    <select id="timeSlot" required>
+                        <option value="">Select Time</option>
+                    </select>
+                    <button type="submit">Book Appointment</button>
+                </form>
+            </div>
+
+            <div class="queue-status">
+                <h3>Current Queue Status</h3>
+                <div id="queueDisplay"></div>
+            </div>
+        </div>
+
+        <!-- Admin Panel -->
+        <div id="adminView" class="view">
+            <div class="admin-controls">
+                <h2>Admin Dashboard</h2>
+                <div class="stats">
+                    <div class="stat-card">
+                        <h4>Today's Appointments</h4>
+                        <span id="todayCount">0</span>
+                    </div>
+                    <div class="stat-card">
+                        <h4>In Queue</h4>
+                        <span id="queueCount">0</span>
+                    </div>
+                    <div class="stat-card">
+                        <h4>Completed</h4>
+                        <span id="completedCount">0</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="appointments-list">
+                <h3>Manage Appointments</h3>
+                <div id="appointmentsList"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
