@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuickServe - Service Request System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎫 QuickServe</h1>
+            <p>Professional Service Request Management</p>
+            <div class="view-toggle">
+                <button id="customerBtn" class="active">Customer Portal</button>
+                <button id="staffBtn">Staff Dashboard</button>
+            </div>
+        </header>
+
+        <!-- Customer View -->
+        <div id="customerView" class="view active">
+            <div class="submit-ticket">
+                <h2>Submit Service Request</h2>
+                <form id="ticketForm">
+                    <input type="email" id="customerEmail" placeholder="Your Email" required>
+                    <input type="text" id="ticketTitle" placeholder="Issue Title" required>
+                    <textarea id="ticketDescription" placeholder="Describe your issue..." rows="4" required></textarea>
+                    <select id="ticketPriority">
+                        <option value="low">Low Priority</option>
+                        <option value="medium" selected>Medium Priority</option>
+                        <option value="high">High Priority</option>
+                    </select>
+                    <button type="submit">Submit Request</button>
+                </form>
+            </div>
+
+            <div class="ticket-status">
+                <h3>Check Ticket Status</h3>
+                <div class="status-search">
+                    <input type="email" id="statusEmail" placeholder="Enter your email">
+                    <button id="checkStatusBtn">Check Status</button>
+                </div>
+                <div id="customerTickets"></div>
+            </div>
+        </div>
+
+        <!-- Staff View -->
+        <div id="staffView" class="view">
+            <div class="dashboard-stats">
+                <div class="stat-card">
+                    <h4>Open Tickets</h4>
+                    <span id="openCount">0</span>
+                </div>
+                <div class="stat-card">
+                    <h4>In Progress</h4>
+                    <span id="progressCount">0</span>
+                </div>
+                <div class="stat-card">
+                    <h4>Closed Today</h4>
+                    <span id="closedCount">0</span>
+                </div>
+                <div class="stat-card">
+                    <h4>High Priority</h4>
+                    <span id="highPriorityCount">0</span>
+                </div>
+            </div>
+
+            <div class="ticket-filters">
+                <select id="statusFilter">
+                    <option value="">All Status</option>
+                    <option value="open">Open</option>
+                    <option value="in-progress">In Progress</option>
+                    <option value="closed">Closed</option>
+                </select>
+                <select id="priorityFilter">
+                    <option value="">All Priority</option>
+                    <option value="high">High</option>
+                    <option value="medium">Medium</option>
+                    <option value="low">Low</option>
+                </select>
+                <button id="refreshBtn">Refresh</button>
+            </div>
+
+            <div id="ticketsList" class="tickets-list"></div>
+        </div>
+    </div>
+
+    <!-- Ticket Modal -->
+    <div id="ticketModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div id="ticketDetails"></div>
+            <div class="response-section">
+                <h4>Add Response</h4>
+                <textarea id="responseText" placeholder="Type your response..." rows="3"></textarea>
+                <div class="modal-actions">
+                    <select id="newStatus">
+                        <option value="open">Open</option>
+                        <option value="in-progress">In Progress</option>
+                        <option value="closed">Closed</option>
+                    </select>
+                    <button id="updateTicketBtn">Update Ticket</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InvoiceLite - Professional Invoice Generator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            color: white;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            background: white;
+            border-radius: 10px;
+            padding: 5px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 12px 20px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .tab-btn.active {
+            background: #667eea;
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .form-section {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        .form-section h2 {
+            margin-bottom: 20px;
+            color: #667eea;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: #555;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            padding: 12px;
+            border: 2px solid #e1e5e9;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .items-section {
+            margin-top: 20px;
+        }
+
+        .items-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 15px;
+        }
+
+        .items-table th,
+        .items-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .items-table th {
+            background: #f8f9fa;
+            font-weight: 600;
+        }
+
+        .items-table input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #5a6fd8;
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+        }
+
+        .invoice-list {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .invoice-item {
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .invoice-item:last-child {
+            border-bottom: none;
+        }
+
+        .invoice-info h4 {
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        .invoice-info p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .invoice-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .stat-card h3 {
+            margin-bottom: 10px;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .totals-section {
+            text-align: right;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px solid #dee2e6;
+        }
+
+        .total-row {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 10px;
+        }
+
+        .total-label {
+            width: 150px;
+            font-weight: 500;
+        }
+
+        .total-value {
+            width: 100px;
+            text-align: right;
+        }
+
+        .total-row.final {
+            font-size: 1.2rem;
+            font-weight: bold;
+            border-top: 2px solid #333;
+            padding-top: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .invoice-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📄 InvoiceLite</h1>
+            <p>Professional Invoice Generator & Management</p>
+        </header>
+
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('create')">Create Invoice</button>
+            <button class="tab-btn" onclick="switchTab('clients')">Manage Clients</button>
+            <button class="tab-btn" onclick="switchTab('invoices')">View Invoices</button>
+            <button class="tab-btn" onclick="switchTab('analytics')">Analytics</button>
+        </div>
+
+        <!-- Create Invoice Tab -->
+        <div id="create" class="tab-content active">
+            <div class="form-section">
+                <h2>Create New Invoice</h2>
+                <form id="invoiceForm">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Client</label>
+                            <select id="clientSelect" required>
+                                <option value="">Select Client</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Invoice Date</label>
+                            <input type="date" id="invoiceDate" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Due Date</label>
+                            <input type="date" id="dueDate" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Tax Rate (%)</label>
+                            <input type="number" id="taxRate" value="0" min="0" max="100" step="0.1">
+                        </div>
+                    </div>
+
+                    <div class="items-section">
+                        <h3>Invoice Items</h3>
+                        <table class="items-table">
+                            <thead>
+                                <tr>
+                                    <th>Description</th>
+                                    <th>Quantity</th>
+                                    <th>Rate</th>
+                                    <th>Amount</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="itemsTable">
+                                <tr>
+                                    <td><input type="text" placeholder="Item description" required></td>
+                                    <td><input type="number" value="1" min="1" step="0.01" required></td>
+                                    <td><input type="number" value="0" min="0" step="0.01" required></td>
+                                    <td class="amount">$0.00</td>
+                                    <td><button type="button" class="btn btn-danger" onclick="removeItem(this)">Remove</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <button type="button" class="btn btn-secondary" onclick="addItem()">Add Item</button>
+                    </div>
+
+                    <div class="totals-section">
+                        <div class="total-row">
+                            <span class="total-label">Subtotal:</span>
+                            <span class="total-value" id="subtotal">$0.00</span>
+                        </div>
+                        <div class="total-row">
+                            <span class="total-label">Tax:</span>
+                            <span class="total-value" id="taxAmount">$0.00</span>
+                        </div>
+                        <div class="total-row final">
+                            <span class="total-label">Total:</span>
+                            <span class="total-value" id="total">$0.00</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="margin-top: 20px;">
+                        <label>Notes</label>
+                        <textarea id="notes" rows="3" placeholder="Additional notes..."></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Create Invoice</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Clients Tab -->
+        <div id="clients" class="tab-content">
+            <div class="form-section">
+                <h2>Add New Client</h2>
+                <form id="clientForm">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Client Name</label>
+                            <input type="text" id="clientName" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" id="clientEmail" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Phone</label>
+                            <input type="tel" id="clientPhone">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Address</label>
+                        <textarea id="clientAddress" rows="3" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add Client</button>
+                </form>
+            </div>
+
+            <div class="form-section">
+                <h2>Client List</h2>
+                <div id="clientsList"></div>
+            </div>
+        </div>
+
+        <!-- Invoices Tab -->
+        <div id="invoices" class="tab-content">
+            <div class="form-section">
+                <h2>Invoice List</h2>
+                <div id="invoicesList" class="invoice-list"></div>
+            </div>
+        </div>
+
+        <!-- Analytics Tab -->
+        <div id="analytics" class="tab-content">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>Total Invoices</h3>
+                    <div class="stat-value" id="totalInvoices">0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Total Revenue</h3>
+                    <div class="stat-value" id="totalRevenue">$0.00</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Average Invoice</h3>
+                    <div class="stat-value" id="avgInvoice">$0.00</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let clients = [];
+        let invoices = [];
+
+        // Tab switching
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            
+            event.target.classList.add('active');
+            document.getElementById(tabName).classList.add('active');
+            
+            if (tabName === 'clients') loadClients();
+            if (tabName === 'invoices') loadInvoices();
+            if (tabName === 'analytics') loadAnalytics();
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('invoiceDate').value = new Date().toISOString().split('T')[0];
+            
+            const dueDate = new Date();
+            dueDate.setDate(dueDate.getDate() + 30);
+            document.getElementById('dueDate').value = dueDate.toISOString().split('T')[0];
+            
+            loadClients();
+            setupEventListeners();
+        });
+
+        function setupEventListeners() {
+            document.getElementById('clientForm').addEventListener('submit', handleClientSubmit);
+            document.getElementById('invoiceForm').addEventListener('submit', handleInvoiceSubmit);
+            
+            // Auto-calculate totals
+            document.getElementById('itemsTable').addEventListener('input', calculateTotals);
+            document.getElementById('taxRate').addEventListener('input', calculateTotals);
+        }
+
+        // Client management
+        async function handleClientSubmit(e) {
+            e.preventDefault();
+            
+            const clientData = {
+                name: document.getElementById('clientName').value,
+                email: document.getElementById('clientEmail').value,
+                phone: document.getElementById('clientPhone').value,
+                address: document.getElementById('clientAddress').value
+            };
+
+            try {
+                const response = await fetch('/api/clients', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(clientData)
+                });
+
+                if (response.ok) {
+                    document.getElementById('clientForm').reset();
+                    loadClients();
+                    alert('Client added successfully!');
+                }
+            } catch (error) {
+                alert('Error adding client');
+            }
+        }
+
+        async function loadClients() {
+            try {
+                const response = await fetch('/api/clients');
+                clients = await response.json();
+                
+                // Update client select
+                const select = document.getElementById('clientSelect');
+                select.innerHTML = '<option value="">Select Client</option>';
+                clients.forEach(client => {
+                    select.innerHTML += `<option value="${client.id}">${client.name}</option>`;
+                });
+                
+                // Update clients list
+                const list = document.getElementById('clientsList');
+                list.innerHTML = clients.map(client => `
+                    <div class="invoice-item">
+                        <div class="invoice-info">
+                            <h4>${client.name}</h4>
+                            <p>${client.email} | ${client.phone}</p>
+                            <p>${client.address}</p>
+                        </div>
+                    </div>
+                `).join('');
+            } catch (error) {
+                console.error('Error loading clients:', error);
+            }
+        }
+
+        // Invoice management
+        function addItem() {
+            const table = document.getElementById('itemsTable');
+            const row = table.insertRow();
+            row.innerHTML = `
+                <td><input type="text" placeholder="Item description" required></td>
+                <td><input type="number" value="1" min="1" step="0.01" required></td>
+                <td><input type="number" value="0" min="0" step="0.01" required></td>
+                <td class="amount">$0.00</td>
+                <td><button type="button" class="btn btn-danger" onclick="removeItem(this)">Remove</button></td>
+            `;
+        }
+
+        function removeItem(button) {
+            button.closest('tr').remove();
+            calculateTotals();
+        }
+
+        function calculateTotals() {
+            const rows = document.querySelectorAll('#itemsTable tr');
+            let subtotal = 0;
+            
+            rows.forEach(row => {
+                const qty = parseFloat(row.cells[1].querySelector('input').value) || 0;
+                const rate = parseFloat(row.cells[2].querySelector('input').value) || 0;
+                const amount = qty * rate;
+                
+                row.cells[3].textContent = `$${amount.toFixed(2)}`;
+                subtotal += amount;
+            });
+            
+            const taxRate = parseFloat(document.getElementById('taxRate').value) || 0;
+            const taxAmount = subtotal * (taxRate / 100);
+            const total = subtotal + taxAmount;
+            
+            document.getElementById('subtotal').textContent = `$${subtotal.toFixed(2)}`;
+            document.getElementById('taxAmount').textContent = `$${taxAmount.toFixed(2)}`;
+            document.getElementById('total').textContent = `$${total.toFixed(2)}`;
+        }
+
+        async function handleInvoiceSubmit(e) {
+            e.preventDefault();
+            
+            const clientId = document.getElementById('clientSelect').value;
+            const client = clients.find(c => c.id == clientId);
+            
+            if (!client) {
+                alert('Please select a client');
+                return;
+            }
+            
+            const items = [];
+            document.querySelectorAll('#itemsTable tr').forEach(row => {
+                const description = row.cells[0].querySelector('input').value;
+                const quantity = row.cells[1].querySelector('input').value;
+                const rate = row.cells[2].querySelector('input').value;
+                
+                if (description && quantity && rate) {
+                    items.push({ description, quantity, rate });
+                }
+            });
+            
+            if (items.length === 0) {
+                alert('Please add at least one item');
+                return;
+            }
+            
+            const invoiceData = {
+                client_id: clientId,
+                client_name: client.name,
+                date: document.getElementById('invoiceDate').value,
+                due_date: document.getElementById('dueDate').value,
+                items: items,
+                tax_rate: document.getElementById('taxRate').value,
+                notes: document.getElementById('notes').value
+            };
+
+            try {
+                const response = await fetch('/api/invoices', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(invoiceData)
+                });
+
+                if (response.ok) {
+                    const invoice = await response.json();
+                    alert(`Invoice ${invoice.invoice_number} created successfully!`);
+                    document.getElementById('invoiceForm').reset();
+                    
+                    // Reset items table
+                    document.getElementById('itemsTable').innerHTML = `
+                        <tr>
+                            <td><input type="text" placeholder="Item description" required></td>
+                            <td><input type="number" value="1" min="1" step="0.01" required></td>
+                            <td><input type="number" value="0" min="0" step="0.01" required></td>
+                            <td class="amount">$0.00</td>
+                            <td><button type="button" class="btn btn-danger" onclick="removeItem(this)">Remove</button></td>
+                        </tr>
+                    `;
+                    calculateTotals();
+                }
+            } catch (error) {
+                alert('Error creating invoice');
+            }
+        }
+
+        async function loadInvoices() {
+            try {
+                const response = await fetch('/api/invoices');
+                invoices = await response.json();
+                
+                const list = document.getElementById('invoicesList');
+                list.innerHTML = invoices.map(invoice => `
+                    <div class="invoice-item">
+                        <div class="invoice-info">
+                            <h4>${invoice.invoice_number} - ${invoice.client_name}</h4>
+                            <p>Date: ${invoice.date} | Due: ${invoice.due_date} | Total: $${invoice.total}</p>
+                        </div>
+                        <div class="invoice-actions">
+                            <button class="btn btn-primary" onclick="downloadPDF(${invoice.id})">Download PDF</button>
+                        </div>
+                    </div>
+                `).join('');
+            } catch (error) {
+                console.error('Error loading invoices:', error);
+            }
+        }
+
+        function downloadPDF(invoiceId) {
+            window.open(`/api/invoices/${invoiceId}/pdf`, '_blank');
+        }
+
+        async function loadAnalytics() {
+            try {
+                const response = await fetch('/api/analytics');
+                const data = await response.json();
+                
+                document.getElementById('totalInvoices').textContent = data.total_invoices;
+                document.getElementById('totalRevenue').textContent = `$${data.total_revenue.toFixed(2)}`;
+                document.getElementById('avgInvoice').textContent = `$${data.average_invoice.toFixed(2)}`;
+            } catch (error) {
+                console.error('Error loading analytics:', error);
+            }
+        }
+    </script>
+</body>
+</html>

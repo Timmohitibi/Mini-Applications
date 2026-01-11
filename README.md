@@ -25,25 +25,58 @@ A collection of end-to-end mini applications demonstrating various technologies 
 - **Demonstrates**: Stateless request handling, menu trees, telecom-style logic, session tracking
 - **Run**: Open `index.html` in browser
 
-### 4. Todo App (HTML/CSS/JS)
+### 4. QuickServe - Service Request System
+- **Location**: `quickserve/`
+- **Tech Stack**: Node.js, Express, REST API
+- **Features**: Ticket management, customer portal, staff dashboard, status tracking
+- **Demonstrates**: RESTful API design, role-based access, ticket lifecycle management
+- **Run**: 
+  ```bash
+  npm install
+  npm start
+  ```
+
+### 5. TaskForge - Agile Task Management
+- **Location**: `taskforge/`
+- **Tech Stack**: React, JavaScript, Hooks
+- **Features**: Kanban board, task priorities, story points, drag-and-drop workflow
+- **Demonstrates**: React state management, component architecture, agile methodology
+- **Run**: 
+  ```bash
+  npm install
+  npm start
+  ```
+
+### 6. InvoiceLite - Invoice Generator
+- **Location**: `invoicelite/`
+- **Tech Stack**: Python, Flask, ReportLab
+- **Features**: Client management, invoice creation, PDF generation, analytics dashboard
+- **Demonstrates**: PDF generation, business calculations, data management, reporting
+- **Run**: 
+  ```bash
+  pip install -r requirements.txt
+  python app.py
+  ```
+
+### 7. Todo App (HTML/CSS/JS)
 - **Location**: `todo-app/`
 - **Tech Stack**: Vanilla HTML, CSS, JavaScript
 - **Features**: Add/remove tasks, mark complete, localStorage persistence
 - **Run**: Open `index.html` in browser
 
-### 5. Weather Dashboard (HTML/CSS/JS)
+### 8. Weather Dashboard (HTML/CSS/JS)
 - **Location**: `weather-dashboard/`
 - **Tech Stack**: Vanilla HTML, CSS, JavaScript
 - **Features**: Mock weather data for major cities, responsive design
 - **Run**: Open `index.html` in browser
 
-### 6. Calculator (HTML/CSS/JS)
+### 9. Calculator (HTML/CSS/JS)
 - **Location**: `calculator/`
 - **Tech Stack**: Vanilla HTML, CSS, JavaScript
 - **Features**: Basic arithmetic, keyboard support, responsive design
 - **Run**: Open `index.html` in browser
 
-### 7. URL Shortener API (Python/Flask)
+### 10. URL Shortener API (Python/Flask)
 - **Location**: `url-shortener/`
 - **Tech Stack**: Python, Flask
 - **Features**: Shorten URLs, click tracking, statistics
@@ -53,13 +86,13 @@ A collection of end-to-end mini applications demonstrating various technologies 
   python app.py
   ```
 
-### 8. File Organizer (Python)
+### 11. File Organizer (Python)
 - **Location**: `file-organizer/`
 - **Tech Stack**: Python
 - **Features**: Organize files by type, preview mode, safe operations
 - **Run**: `python organizer.py`
 
-### 9. Password Generator (Python/Tkinter)
+### 12. Password Generator (Python/Tkinter)
 - **Location**: `password-generator/`
 - **Tech Stack**: Python, Tkinter
 - **Features**: Customizable passwords, strength indicator, clipboard copy
@@ -69,7 +102,7 @@ A collection of end-to-end mini applications demonstrating various technologies 
   python password_gen.py
   ```
 
-### 10. React Counter App
+### 13. React Counter App
 - **Location**: `react-counter/`
 - **Tech Stack**: React, JavaScript
 - **Features**: Counter with history, localStorage persistence
@@ -79,7 +112,7 @@ A collection of end-to-end mini applications demonstrating various technologies 
   npm start
   ```
 
-### 11. Chat Server (Node.js)
+### 14. Chat Server (Node.js)
 - **Location**: `chat-server/`
 - **Tech Stack**: Node.js, Express, Socket.io
 - **Features**: Real-time chat, user list, typing indicators
